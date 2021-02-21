@@ -28,6 +28,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import java.util.List;
 
 /**
  * Connect4Client class used to load a UI and communicate with Connect4Server
@@ -78,10 +79,8 @@ public class Connect4Client extends Application implements Constants {
     // Wait for the player to mark a cell
     private boolean waiting = true;
 
-    // Host name or ip
-    private String host = "localhost";
 
-  @Override // Override the start method in the Application class
+    @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
         //Main Pane used to carry all components
         BorderPane borderpane = new BorderPane();
@@ -156,8 +155,15 @@ public class Connect4Client extends Application implements Constants {
      */
     private void connectToServer() {
         try {
+            // Get Parameters for host and portNo
+            String host;
+            int portNo;
+            Parameters params = getParameters();
+            List<String> parameters = params.getRaw();
+            portNo = Integer.parseInt(parameters.get(0));
+            host = parameters.get(1);
             // Create a socket to connect to the server
-            Socket socket = new Socket(host, 8004);
+            Socket socket = new Socket(host, portNo);
 
             // Create an input stream to receive data from the server
             fromServer = new DataInputStream(socket.getInputStream());

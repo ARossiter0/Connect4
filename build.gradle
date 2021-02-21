@@ -1,12 +1,14 @@
 plugins {
 	id 'eclipse'
 	id 'application'
+	id 'java'
 	id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
 repositories {
 	mavenCentral()
 }
+
 javafx {
     version = "15.0.1"
     modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
@@ -20,6 +22,18 @@ sourceSets {
 	}
 }
 
+def port = 8004
+def host = "localhost"
+
+task arguments {
+	if (project.hasProperty("port")) {
+		port = project.getProperty("port")
+	}
+	if (project.hasProperty("host")) {
+		host = project.getProperty("host")
+	}
+}
+
 task runServer(type: JavaExec){
 	description 'Runs the Game Server'
 
@@ -27,6 +41,8 @@ task runServer(type: JavaExec){
 
 	main = 'core.ServerLauncher'
 	standardInput = System.in
+
+	args port
 }
 
 task runClient(type: JavaExec) {
@@ -36,4 +52,7 @@ task runClient(type: JavaExec) {
 
 	main = 'core.ClientLauncher'
 	standardInput = System.in
+
+	args port
+	args host
 }

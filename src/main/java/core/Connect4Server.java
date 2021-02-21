@@ -6,6 +6,7 @@
 package core;
 
 import static core.Constants.DRAW;
+import java.util.List;
 import java.io.*;
 import java.net.*;
 import java.util.Date;
@@ -40,9 +41,12 @@ public class Connect4Server extends Application implements Constants {
         new Thread( () -> {
             try {
                 // Create a server socket
-                ServerSocket serverSocket = new ServerSocket(8004);
+                Parameters params = getParameters();
+                List<String> list = params.getRaw();
+                int portNo = Integer.parseInt(list.get(0));
+                ServerSocket serverSocket = new ServerSocket(portNo);
                 Platform.runLater(() -> taLog.appendText(new Date() + 
-                        ": Server started at socket 8004\n"));
+                        ": Server started at socket " + portNo + "\n"));
 
                 // Ready to create a session for every two players
                 while (true) {
