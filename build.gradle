@@ -1,0 +1,39 @@
+plugins {
+	id 'eclipse'
+	id 'application'
+	id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+repositories {
+	mavenCentral()
+}
+javafx {
+    version = "15.0.1"
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src'
+		}
+	}
+}
+
+task runServer(type: JavaExec){
+	description 'Runs the Game Server'
+
+	classpath = sourceSets.main.runtimeClasspath
+
+	main = 'core.ServerLauncher'
+	standardInput = System.in
+}
+
+task runClient(type: JavaExec) {
+	description 'Runs the Game Client'
+
+	classpath = sourceSets.main.runtimeClasspath
+
+	main = 'core.ClientLauncher'
+	standardInput = System.in
+}

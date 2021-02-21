@@ -2,3 +2,7 @@
 nbproject/
 build/
 build.xml
+
+# Gradle
+.gradle
+/build/
